@@ -2,14 +2,14 @@ package me.graph;
 
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DepthFirstPath<T> {
-    private Graph<T> graph;
-    private T toVertex;
-    private T fromVertex;
-    private HashSet<T> marked = new HashSet<>();
-    private HashMap<T, T> edgeTo = new HashMap<>();
+    private final Graph<T> graph;
+    private final T toVertex;
+    private final T fromVertex;
+    private final HashSet<T> marked = new HashSet<>();
+    private final HashMap<T, T> edgeTo = new HashMap<>();
+    private final List<T> path = new ArrayList<>();
 
     public DepthFirstPath(Graph<T> graph, T fromVertex, T toVertex) {
         this.graph = graph;
@@ -18,25 +18,32 @@ public class DepthFirstPath<T> {
         dfs(fromVertex);
     }
 
+    public boolean hasPath() {
+        return marked.contains(toVertex);
+    }
+
     public Iterator<T> getPath() {
-        Stack<T> path = new Stack<>();
-        for (T vertex = toVertex; vertex != fromVertex; vertex = edgeTo.get(vertex)) {
-            path.push(vertex);
+        if (hasPath()) {
+            fillPath();
         }
-        path.push(fromVertex);
-        return path.stream().collect(Collectors.toCollection(LinkedList::new)).descendingIterator();
+        return path.iterator();
     }
 
     private void dfs(T vertex) {
         marked.add(vertex);
-        for (T adjacencyVertex: graph.adjacencyList(vertex)) {
-            if (!marked.contains(adjacencyVertex)) {
-                edgeTo.put(adjacencyVertex, vertex);
-                if (adjacencyVertex == toVertex) {
-                    return;
-                }
-                else dfs(adjacencyVertex);
-            }
+        graph.adjacencyList(vertex).stream()
+                .filter(adjacencyVertex -> !marked.contains(adjacencyVertex))
+                .forEach(adjacencyVertex -> {
+                    edgeTo.put(adjacencyVertex, vertex);
+                    dfs(adjacencyVertex);
+                });
+    }
+
+    private void fillPath() {
+        for (T vertex = toVertex; vertex != fromVertex; vertex = edgeTo.get(vertex)) {
+            path.add(vertex);
         }
+        path.add(fromVertex);
+        Collections.reverse(path);
     }
 }

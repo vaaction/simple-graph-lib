@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public abstract class BaseGraph<T> implements Graph<T> {
-    private HashSet<T> vertices = new HashSet<>();
-    protected HashMap<T, Collection<T>> adjacencyLists = new HashMap<>();
+public abstract class AbstractGraph<T> implements Graph<T> {
+    private final HashSet<T> vertices = new HashSet<>();
+    protected final HashMap<T, Collection<T>> adjacencyLists = new HashMap<>();
 
     @Override
     public boolean addVertex(T vertex) {
@@ -24,10 +24,10 @@ public abstract class BaseGraph<T> implements Graph<T> {
 
     protected void ensureEdge(T fromVertex, T toVertex) {
         if (!vertices.contains(fromVertex)) {
-            throw new IllegalArgumentException("Graph doesn't contain from vertex");
+            throw new IllegalArgumentException("Graph doesn't contain fromVertex");
         }
         if (!vertices.contains(toVertex)) {
-            throw new IllegalArgumentException("Graph doesn't contain to vertex");
+            throw new IllegalArgumentException("Graph doesn't contain toVertex");
         }
     }
 }

@@ -2,7 +2,7 @@ package me.graph;
 
 import java.util.Collection;
 
-public class UndirectedGraph<T> extends BaseGraph<T> implements Graph<T> {
+public class UndirectedGraph<T> extends AbstractGraph<T> implements Graph<T> {
 
     @Override
     public void addEdge(T fromVertex, T toVertex) {
