@@ -7,8 +7,8 @@ public class DepthFirstPath<T> {
     private final Graph<T> graph;
     private final T toVertex;
     private final T fromVertex;
-    private final HashSet<T> marked = new HashSet<>();
-    private final HashMap<T, T> edgeTo = new HashMap<>();
+    private final HashSet<T> passedVerticesByDfs = new HashSet<>();
+    private final HashMap<T, T> lastEdgeByDfsTo = new HashMap<>();
     private final List<T> path = new ArrayList<>();
 
     public DepthFirstPath(Graph<T> graph, T fromVertex, T toVertex) {
@@ -19,7 +19,7 @@ public class DepthFirstPath<T> {
     }
 
     public boolean hasPath() {
-        return marked.contains(toVertex);
+        return passedVerticesByDfs.contains(toVertex);
     }
 
     public Iterator<T> getPath() {
@@ -30,17 +30,17 @@ public class DepthFirstPath<T> {
     }
 
     private void dfs(T vertex) {
-        marked.add(vertex);
+        passedVerticesByDfs.add(vertex);
         graph.adjacencyList(vertex).stream()
-                .filter(adjacencyVertex -> !marked.contains(adjacencyVertex))
+                .filter(adjacencyVertex -> !passedVerticesByDfs.contains(adjacencyVertex))
                 .forEach(adjacencyVertex -> {
-                    edgeTo.put(adjacencyVertex, vertex);
+                    lastEdgeByDfsTo.put(adjacencyVertex, vertex);
                     dfs(adjacencyVertex);
                 });
     }
 
     private void fillPath() {
-        for (T vertex = toVertex; vertex != fromVertex; vertex = edgeTo.get(vertex)) {
+        for (T vertex = toVertex; vertex != fromVertex; vertex = lastEdgeByDfsTo.get(vertex)) {
             path.add(vertex);
         }
         path.add(fromVertex);
