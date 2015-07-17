@@ -1,0 +1,5 @@
+Questions to be ready to answer (don’t have to implement):
+
+Add weighted edges support in your lib. 
+Add traverse function that will take a user defined function and apply it on every vertex of the graph.
+Make you graphs thread safe.
