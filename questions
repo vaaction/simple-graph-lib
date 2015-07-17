@@ -1,5 +1,14 @@
 Questions to be ready to answer (don’t have to implement):
 
-Add weighted edges support in your lib. 
-Add traverse function that will take a user defined function and apply it on every vertex of the graph.
-Make you graphs thread safe.
+1) Add weighted edges support in your lib. 
+2) Add traverse function that will take a user defined function and apply it on every vertex of the graph.
+3) Make you graphs thread safe.
+
+1) Add weighted edges support in your lib.
+Add weighted field to adjacency lists, not only vertex
+
+2) Add traverse function that will take a user defined function and apply it on every vertex of the graph.
+Create class to implement traverse function. Just use dfs to traverse every vertex and apply the user defined function
+
+3) Make you graphs thread safe.
+Use unmodifiable implementation of graph. return new graph on each mutable function
